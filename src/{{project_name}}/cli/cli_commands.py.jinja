@@ -1,0 +1,17 @@
+from typing import Annotated
+
+import typer
+
+from {{project_name}} import console
+
+app = typer.Typer(add_completion=False)
+
+
+@app.command()
+def hello(
+    name: Annotated[str, typer.Argument(help="Your name")],
+    message: Annotated[str, typer.Option("-m", "--message", help="Optional message")] = "",
+) -> None:
+    """Example cli method"""
+    console.info("[cyan]only shows in interactive output[/]")
+    console.print(f"Hello {name} {message}".strip())
