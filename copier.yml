@@ -1,0 +1,12 @@
+project_name:
+  type: str
+  help: what is the name of the cli tool
+
+project_description:
+  type: str
+  help: brief description of what the cli does
+
+alias_name:
+  type: str
+  help: what is the alias or entrypoint for the cli
+
