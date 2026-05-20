@@ -7,6 +7,9 @@ requires-python = ">=3.13"
 dependencies = [
     "rich>=15.0.0",
     "typer>=0.25.1",
+{%- if include_config_setup %}    
+    "pydantic-settings>=2.11.0",
+{%- endif %}
 ]
 
 [dependency-groups]

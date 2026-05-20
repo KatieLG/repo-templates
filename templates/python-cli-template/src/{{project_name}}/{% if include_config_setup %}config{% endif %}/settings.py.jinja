@@ -1,0 +1,45 @@
+import logging
+from functools import cache
+from pathlib import Path
+
+from pydantic import Field, SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+CONFIG_DIR = Path("~/.config/{{project_name}}")
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+    level="INFO",
+)
+
+
+{% if config_type == "multiple" -%}
+class Environment(str):
+    DEV = "dev"
+    PROD = "prod"
+
+
+{% endif -%}
+class Settings(BaseSettings):
+    """Application settings."""
+{% if config_type == "multiple" %}    
+    env: Environment
+{% endif %}
+    api_key: SecretStr = Field(env="API_KEY")
+{% if config_type == "single" %}
+    model_config = SettingsConfigDict(env_file=CONFIG_DIR / ".env")
+{% endif %}
+
+@cache
+def get_settings({% if config_type == "multiple" %}env: Environment{% endif %}) -> Settings:
+    """Get application settings."""
+{% if config_type == "multiple" %}
+    env_file = CONFIG_DIR / f".env.{env}"
+
+    class EnvSettings(Settings):
+        model_config = SettingsConfigDict(env_file=env_file)
+
+    return EnvSettings(env=env)  # type: ignore
+{% endif %}
+    return Settings()  # type: ignore

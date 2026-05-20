@@ -10,3 +10,14 @@ alias_name:
   type: str
   help: what is the alias or entrypoint for the cli
 
+include_config_setup:
+  type: bool
+  help: whether to include global config setup with pydantic settings
+
+config_type:
+  type: str
+  help: if including config setup, what config setup is needed
+  choices:
+    Single env file: single
+    Multiple env files (e.g. dev, staging, prod): multiple
+  when: "{{ include_config_setup == true }}"
