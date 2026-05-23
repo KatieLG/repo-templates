@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items</title>
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+{%- if include_tailwind %}
+<body class="bg-gray-50 min-h-screen font-sans">
+    <div class="max-w-2xl mx-auto px-6 py-12">
+        <a href="/" class="text-sm text-blue-600 hover:underline mb-6 inline-block">← Back</a>
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Items</h1>
+        <ul class="space-y-3">
+            {% raw %}
+            {% for item in items %}
+            <li class="bg-white rounded-lg border border-gray-200 px-5 py-4 shadow-sm">
+                <p class="font-semibold text-gray-900">{{ item.name }}</p>
+                <p class="text-sm text-gray-500 mt-1">{{ item.description }}</p>
+            </li>
+            {% endfor %}
+            {% endraw %}
+        </ul>
+    </div>
+{%- else %}
+<body>
+    <h1>Items</h1>
+    <a href="/">← Back</a>
+    <ul>
+        {% raw %}
+        {% for item in items %}
+        <li>
+            <strong>{{ item.name }}</strong>
+            <p>{{ item.description }}</p>
+        </li>
+        {% endfor %}
+        {% endraw %}
+    </ul>
+{%- endif %}
+</body>
+</html>

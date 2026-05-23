@@ -1,0 +1,24 @@
+.PHONY: lint format test check run{% if include_tailwind %} build-css watch-css{% endif %}
+
+lint:
+	uv run ruff check
+	uv run ty check
+
+format:
+	uv run ruff format
+	uv run ruff check --fix
+
+test:
+	uv run pytest
+
+check: format lint test
+{% if include_tailwind %}
+build-css:
+	tailwindcss -i static/input.css -o static/styles.css --minify
+
+watch-css:
+	tailwindcss -i static/input.css -o static/styles.css --watch
+
+{% endif %}
+run:
+	uv run uvicorn app.main:app --reload

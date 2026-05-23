@@ -1,0 +1,50 @@
+# {{project_name}}
+
+{{project_description}}
+
+## Getting started
+
+- Install [uv](https://docs.astral.sh/uv/)
+- From the project root run `uv sync`
+{% if include_tailwind %}
+- Install the [Tailwind CSS standalone CLI](https://tailwindcss.com/blog/standalone-cli):
+{% endif %}
+
+## Running the API
+{% if include_tailwind %}
+Build the CSS first, then start the server:
+
+```bash
+make build-css
+make run
+```
+
+While developing, you can watch for template changes in a separate terminal:
+
+```bash
+make watch-css
+```
+{% else %}
+```bash
+make run
+```
+{% endif %}
+
+The API will be available at `http://localhost:8000`.  
+Interactive docs are at `http://localhost:8000/docs`.
+
+## Development
+
+```bash
+# Format code
+make format
+
+# Lint
+make lint
+
+# Run tests
+make test
+
+# Format, lint, and test
+make check
+```

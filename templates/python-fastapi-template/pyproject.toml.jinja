@@ -1,0 +1,47 @@
+[project]
+name = "{{project_name}}"
+version = "0.1.0"
+description = "{{project_description}}"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.12",
+{%- if include_html_templates %}
+    "jinja2>=3.1.6",
+{%- endif %}
+    "uvicorn>=0.34.2",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.0.3",
+    "ruff>=0.15.13",
+    "ty>=0.0.37",
+]
+
+[tool.ruff]
+line-length = 100
+lint.select = [
+    "ANN",
+    "ARG",
+    "B",
+    "C4",
+    "E",
+    "F",
+    "I",
+    "ICN",
+    "LOG",
+    "N",
+    "PERF",
+    "PLC",
+    "PLE",
+    "PTH",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "TID",
+    "UP",
+    "W",
+]

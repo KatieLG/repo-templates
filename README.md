@@ -4,6 +4,8 @@ Various templates using [copier](https://copier.readthedocs.io/en/stable/)
 
 ## Available templates
 
+- [python-fastapi-template](/templates/python-fastapi-template)
+  - template for spinning up a [FastAPI](https://fastapi.tiangolo.com/) app with optional Jinja2 HTML templates and Tailwind CSS
 - [python-cli-template](/templates/python-cli-template)
   - template for spinning up a python cli with [typer](https://typer.tiangolo.com/)
 - [github-ci-uv](/templates/github-ci-uv)

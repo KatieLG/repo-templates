@@ -1,0 +1,30 @@
+from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
+
+router = APIRouter(
+    prefix="/items",
+    tags=["items"],
+    responses={404: {"description": "Not found"}},
+)
+templates = Jinja2Templates(directory="templates")
+
+
+class Item(BaseModel):
+    name: str
+    description: str
+
+
+ITEMS = [
+    Item(name="Item One", description="Description for item one."),
+    Item(name="Item Two", description="Description for item two."),
+    Item(name="Item Three", description="Description for item three."),
+]
+
+
+@router.get("/")
+async def read_items(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse(
+        request=request, name="items.html", context={"items": ITEMS}
+    )
