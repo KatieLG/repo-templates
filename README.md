@@ -8,11 +8,8 @@ Various templates using [copier](https://copier.readthedocs.io/en/stable/)
   - template for spinning up a [FastAPI](https://fastapi.tiangolo.com/) app with optional Jinja2 HTML templates and Tailwind CSS
 - [python-cli-template](/templates/python-cli-template)
   - template for spinning up a python cli with [typer](https://typer.tiangolo.com/)
-- [github-ci-uv](/templates/github-ci-uv)
-  - template for basic github action to run linting, (optionally formatting) and tests for a uv managed python project
-  - assumes the use of a makefile for lint format and test commands
-- [python-uv-makefile](/templates/python-uv-makefile)
-  - template for standard makefile for uv managed python projects
+- [python-ci-template](/templates/python-ci-template)
+  - template for a standard Makefile for uv managed python projects, with optional GitHub Actions CI workflow
 
 ## How to use
 

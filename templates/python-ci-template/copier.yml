@@ -1,0 +1,10 @@
+include_ci:
+  type: bool
+  help: whether to include a GitHub Actions CI workflow
+  default: true
+
+include_format_and_push:
+  type: bool
+  help: should the CI workflow run formatting and commit the results
+  default: false
+  when: "{{ include_ci == true }}"
