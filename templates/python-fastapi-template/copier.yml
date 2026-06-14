@@ -1,29 +1,29 @@
 project_name:
   type: str
-  help: what is the name of the project (used as the package name)
+  help: What is the name of the project (used as the package name)
 
 project_description:
   type: str
-  help: brief description of what the api does
+  help: Brief description of what the api does
 
 include_html_templates:
   type: bool
-  help: whether to include Jinja2 HTML templates and static file serving
+  help: Include Jinja2 HTML templates and static file serving
   default: true
 
 include_tailwind:
   type: bool
-  help: whether to include Tailwind CSS
+  help: Include Tailwind CSS
   default: false
   when: "{{ include_html_templates == true }}"
 
 include_ci:
   type: bool
-  help: whether to include a GitHub Actions CI workflow
+  help: Include a GitHub Actions CI workflow
   default: true
 
 include_format_and_push:
   type: bool
-  help: should the CI workflow run formatting and commit the results
+  help: Should the CI workflow run formatting and commit the results
   default: false
   when: "{{ include_ci == true }}"

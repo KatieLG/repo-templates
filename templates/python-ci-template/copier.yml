@@ -1,10 +1,22 @@
 include_ci:
   type: bool
-  help: whether to include a GitHub Actions CI workflow
+  help: Include a GitHub Actions CI workflow
   default: true
 
 include_format_and_push:
   type: bool
-  help: should the CI workflow run formatting and commit the results
+  help: Should the CI workflow run formatting and commit the results
+  default: false
+  when: "{{ include_ci == true }}"
+
+include_version_matrix:
+  type: bool
+  help: Run tests across multiple Python versions (3.10–3.13)
+  default: false
+  when: "{{ include_ci == true }}"
+
+include_publish:
+  type: bool
+  help: Include a PyPI publish job triggered on version tags (v*)
   default: false
   when: "{{ include_ci == true }}"

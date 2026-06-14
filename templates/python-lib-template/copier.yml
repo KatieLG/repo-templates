@@ -1,22 +1,22 @@
 project_name:
   type: str
-  help: what is the name of the library
+  help: What is the name of the library
 
 project_description:
   type: str
-  help: brief description of what the library does
+  help: Brief description of what the library does
 
 include_tests:
   type: bool
-  help: whether to include a tests directory with a starter unit test
+  help: Include a tests directory with a starter unit test
 
 include_config_setup:
   type: bool
-  help: whether to include global config setup with pydantic settings
+  help: Include global config setup with pydantic settings
 
 config_type:
   type: str
-  help: if including config setup, what config setup is needed
+  help: What env config setup is needed
   choices:
     Single env file: single
     Multiple env files (e.g. dev, staging, prod): multiple

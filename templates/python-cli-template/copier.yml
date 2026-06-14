@@ -1,22 +1,22 @@
 project_name:
   type: str
-  help: what is the name of the cli tool
+  help: What is the name of the cli tool
 
 project_description:
   type: str
-  help: brief description of what the cli does
+  help: Brief description of what the cli does
 
 alias_name:
   type: str
-  help: what is the alias or entrypoint for the cli
+  help: What is the alias or entrypoint for the cli
 
 include_config_setup:
   type: bool
-  help: whether to include global config setup with pydantic settings
+  help: Include global config setup with pydantic settings
 
 config_type:
   type: str
-  help: if including config setup, what config setup is needed
+  help: What env config setup is needed
   choices:
     Single env file: single
     Multiple env files (e.g. dev, staging, prod): multiple
