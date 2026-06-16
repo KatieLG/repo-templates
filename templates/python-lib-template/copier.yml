@@ -10,6 +10,15 @@ include_tests:
   type: bool
   help: Include a tests directory with a starter unit test
 
+include_cli:
+  type: bool
+  help: Include a CLI entrypoint using typer
+
+alias_name:
+  type: str
+  help: What is the alias or entrypoint for the cli
+  when: "{{ include_cli == true }}"
+
 include_config_setup:
   type: bool
   help: Include global config setup with pydantic settings

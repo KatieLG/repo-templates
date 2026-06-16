@@ -6,8 +6,8 @@ Various templates using [copier](https://copier.readthedocs.io/en/stable/)
 
 - [python-fastapi-template](/templates/python-fastapi-template)
   - template for spinning up a [FastAPI](https://fastapi.tiangolo.com/) app with optional Jinja2 HTML templates and Tailwind CSS
-- [python-cli-template](/templates/python-cli-template)
-  - template for spinning up a python cli with [typer](https://typer.tiangolo.com/)
+- [python-lib-template](/templates/python-lib-template)
+  - template for spinning up a Python library with [uv](https://docs.astral.sh/uv/), with an optional [typer](https://typer.tiangolo.com/) CLI entrypoint
 - [python-ci-template](/templates/python-ci-template)
   - template for a standard Makefile for uv managed python projects, with optional GitHub Actions CI workflow
 

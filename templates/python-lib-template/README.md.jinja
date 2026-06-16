@@ -1,0 +1,38 @@
+# {{project_name}}
+
+{{project_description}}
+
+## Setup
+
+- Install [uv](https://docs.astral.sh/uv/)
+- From the root directory run `uv sync`
+{% if not include_cli %}
+## Installation
+
+To use `{{project_name}}` as a dependency in another project:
+
+```bash
+uv add {{project_name}}
+```
+
+Or from a local path:
+
+```bash
+uv add path/to/{{project_name}}
+```
+{% endif %}
+{% if include_cli %}
+## Installation
+
+To install `{{alias_name}}` for global use:
+
+```bash
+uv tool install .
+```
+
+## Usage
+
+```bash
+{{alias_name}} --help
+```
+{% endif %}

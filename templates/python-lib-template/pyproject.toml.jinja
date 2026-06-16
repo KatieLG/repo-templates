@@ -5,6 +5,10 @@ description = "{{project_description}}"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+{%- if include_cli %}
+    "rich>=15.0.0",
+    "typer>=0.25.1",
+{%- endif %}
 {%- if include_config_setup %}
     "pydantic-settings>=2.11.0",
 {%- endif %}
@@ -45,3 +49,8 @@ lint.select = [
 
 [tool.uv]
 package = true
+{%- if include_cli %}
+
+[project.scripts]
+{{alias_name}} = "{{project_name}}.main:cli"
+{%- endif %}
