@@ -27,3 +27,16 @@ include_format_and_push:
   help: Should the CI workflow run formatting and commit the results
   default: false
   when: "{{ include_ci == true }}"
+
+include_config_setup:
+  type: bool
+  help: Include global config setup with pydantic settings
+  default: false
+
+config_type:
+  type: str
+  help: What env config setup is needed
+  choices:
+    Single env file: single
+    Multiple env files (e.g. dev, staging, prod): multiple
+  when: "{{ include_config_setup == true }}"

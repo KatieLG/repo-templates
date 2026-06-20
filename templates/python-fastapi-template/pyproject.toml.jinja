@@ -9,6 +9,9 @@ dependencies = [
 {%- if include_html_templates %}
     "jinja2>=3.1.6",
 {%- endif %}
+{%- if include_config_setup %}
+    "pydantic-settings>=2.11.0",
+{%- endif %}
     "uvicorn>=0.34.2",
 ]
 
