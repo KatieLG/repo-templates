@@ -40,7 +40,7 @@ def get_settings({% if config_type == "multiple" %}env: Environment{% endif %}) 
     class EnvSettings(Settings):
         model_config = SettingsConfigDict(env_file=env_file)
 
-    return EnvSettings(env=env)  # type: ignore
+    return EnvSettings(env=env)
 {% else %}
-    return Settings()  # type: ignore
+    return Settings()
 {% endif %}
