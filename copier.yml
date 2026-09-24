@@ -1,0 +1,89 @@
+_subdirectory: "{{ project_type }}"
+
+project_type:
+  type: str
+  help: What type of project do you want to create
+  choices:
+    FastAPI app: fastapi
+    Python library: library
+    CI-only (Makefile + GitHub Actions for an existing project): ci-only
+
+project_name:
+  type: str
+  help: What is the name of the project (used as the package name)
+  when: "{{ project_type in ['fastapi', 'library'] }}"
+
+project_description:
+  type: str
+  help: Brief description of what the project does
+  when: "{{ project_type in ['fastapi', 'library'] }}"
+
+# --- fastapi ---
+include_html_templates:
+  type: bool
+  help: Include Jinja2 HTML templates and static file serving
+  default: true
+  when: "{{ project_type == 'fastapi' }}"
+
+include_tailwind:
+  type: bool
+  help: Include Tailwind CSS
+  default: false
+  when: "{{ project_type == 'fastapi' and include_html_templates == true }}"
+
+# --- library ---
+include_tests:
+  type: bool
+  help: Include a tests directory with a starter unit test
+  default: true
+  when: "{{ project_type == 'library' }}"
+
+include_cli:
+  type: bool
+  help: Include a CLI entrypoint using typer
+  default: false
+  when: "{{ project_type == 'library' }}"
+
+alias_name:
+  type: str
+  help: What is the alias or entrypoint for the cli
+  when: "{{ project_type == 'library' and include_cli == true }}"
+
+# --- shared: fastapi + library ---
+include_config_setup:
+  type: bool
+  help: Include global config setup with pydantic settings
+  default: false
+  when: "{{ project_type in ['fastapi', 'library'] }}"
+
+config_type:
+  type: str
+  help: What env config setup is needed
+  choices:
+    Single env file: single
+    Multiple env files (e.g. dev, staging, prod): multiple
+  when: "{{ include_config_setup == true }}"
+
+# --- CI: shared across all project types ---
+include_ci:
+  type: bool
+  help: Include a GitHub Actions CI workflow
+  default: true
+
+include_format_and_push:
+  type: bool
+  help: Should the CI workflow run formatting and commit the results
+  default: false
+  when: "{{ include_ci == true }}"
+
+include_version_matrix:
+  type: bool
+  help: Run tests across multiple Python versions (3.10-3.13)
+  default: false
+  when: "{{ include_ci == true }}"
+
+include_publish:
+  type: bool
+  help: Include a PyPI publish job triggered on version tags (v*)
+  default: false
+  when: "{{ include_ci == true }}"

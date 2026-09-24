@@ -1,22 +1,26 @@
 # Repo templates
 
-Various templates using [copier](https://copier.readthedocs.io/en/stable/) 
+A [copier](https://copier.readthedocs.io/en/stable/) template for python projects. Supports 3 options for `project_type`.
 
-## Available templates
+## Project types
 
-- [python-fastapi-template](/templates/python-fastapi-template)
-  - template for spinning up a [FastAPI](https://fastapi.tiangolo.com/) app with optional Jinja2 HTML templates and Tailwind CSS
-- [python-lib-template](/templates/python-lib-template)
-  - template for spinning up a Python library with [uv](https://docs.astral.sh/uv/), with an optional [typer](https://typer.tiangolo.com/) CLI entrypoint
-- [python-ci-template](/templates/python-ci-template)
-  - template for a standard Makefile for uv managed python projects, with optional GitHub Actions CI workflow
+- `fastapi` — a [FastAPI](https://fastapi.tiangolo.com/) app with optional Jinja2 HTML templates and Tailwind CSS
+- `library` — a Python library managed with [uv](https://docs.astral.sh/uv/), with an optional [typer](https://typer.tiangolo.com/) CLI entrypoint
+- `ci-only` — just a Makefile and GitHub Actions CI workflow, to add to an existing project
+
+All share:
+
+- ruff formatting and linting
+- Makefile for standard commands
+- Basic ci that runs the formatter with auto-push
+- an optional Python version test matrix
+- An optional PyPI publish job triggered on version tags.
 
 ## How to use
 
-- Install copier as per the copier docs
-- Copy the template you want with
+- Install [copier](https://copier.readthedocs.io/en/stable/)
+- Run the following and answer the interactive prompts:
   ```bash
-  copier copy /templates/<template-of-choice> <target-path>
+  copier copy https://github.com/KatieLG/repo-templates.git <target-path>
   ```
-  and follow the interactive prompts
-- each repo then has a setup command, e.g. for a python project, cd in and run `uv sync`
+- Each generated repo has a README including setup steps

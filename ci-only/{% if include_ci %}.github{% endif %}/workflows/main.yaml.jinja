@@ -32,7 +32,7 @@ jobs:
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
           if [[ `git status --porcelain` ]]; then
-            git add src/*
+            git add {% if project_type == 'fastapi' %}app{% else %}src{% endif %}/*
             git add tests/*
             git commit -m "chore: code formatting"
             git push
@@ -57,9 +57,20 @@ jobs:
       - uses: astral-sh/setup-uv@v4
 {%- if include_version_matrix %}
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: {% raw %}${{ matrix.python-version }}{% endraw %}
+
 {%- endif %}
       - run: uv sync
+{% if project_type == 'fastapi' and include_tailwind %}
+      - name: Install Tailwind CSS CLI
+        run: |
+          curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+          chmod +x tailwindcss-linux-x64
+          sudo mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss
+
+      - name: Build CSS
+        run: make build-css
+{% endif %}
       - name: Test
         run: make test
 {% if include_publish %}
