@@ -24,3 +24,7 @@ All share:
   copier copy https://github.com/KatieLG/repo-templates.git <target-path>
   ```
 - Each generated repo has a README including setup steps
+
+## Layout
+
+Each project type lives in its own subdirectory (selected via `_subdirectory` in `copier.yml`). Files identical across projects live in `shared/` and are included in the relevant jinja templates.

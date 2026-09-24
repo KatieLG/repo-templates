@@ -1,26 +1,6 @@
 .PHONY: lint format test check bump run{% if include_tailwind %} build-css watch-css{% endif %}
 
-bump := "patch"
-
-lint:
-	uv run ruff check
-	uv run ty check
-
-format:
-	uv run ruff format
-	uv run ruff check --fix
-
-test:
-	uv run pytest
-
-check: format lint test
-
-bump:
-	uv version --bump $(bump)
-	git add pyproject.toml
-	git add uv.lock
-	git commit -m "bump: v$$(uv version --short)"
-{% if include_tailwind %}
+{% include 'shared/Makefile.common' %}{% if include_tailwind %}
 build-css:
 	tailwindcss -i static/input.css -o static/styles.css --minify
 

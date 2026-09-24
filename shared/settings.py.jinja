@@ -42,5 +42,5 @@ def get_settings({% if config_type == "multiple" %}env: Environment{% endif %}) 
 
     return EnvSettings(env=env)
 {% else %}
-    return Settings() 
+    return Settings()
 {% endif %}

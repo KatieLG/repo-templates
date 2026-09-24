@@ -1,0 +1,25 @@
+[tool.ruff]
+line-length = 100
+lint.select = [
+    "ANN",
+    "ARG",
+    "B",
+    "C4",
+    "E",
+    "F",
+    "I",
+    "ICN",
+    "LOG",
+    "N",
+    "PERF",
+    "PLC",
+    "PLE",
+    "PTH",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "TID",
+    "UP",
+    "W",
+]
