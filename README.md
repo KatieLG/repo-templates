@@ -1,30 +1,41 @@
-# Repo templates
+# repo-templates
 
-A [copier](https://copier.readthedocs.io/en/stable/) template for python projects. Supports 3 options for `project_type`.
+A [copier](https://copier.readthedocs.io/en/stable/) template for Python projects.
+
+## Usage
+
+```bash
+copier copy gh:KatieLG/repo-templates <target-path>
+```
 
 ## Project types
 
-- `fastapi` — a [FastAPI](https://fastapi.tiangolo.com/) app with optional Jinja2 HTML templates and Tailwind CSS
-- `library` — a Python library managed with [uv](https://docs.astral.sh/uv/), with an optional [typer](https://typer.tiangolo.com/) CLI entrypoint
-- `ci-only` — just a Makefile and GitHub Actions CI workflow, to add to an existing project
+The first prompt is `project_type` and decides which other prompts and options follow.
 
-All share:
+| Type      | Output                                                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------------------- |
+| `fastapi` | A FastAPI app. Optionally includes Jinja2 templates + static files and/or Tailwind CSS.                             |
+| `library` | A Python package with a `src/` layout. Optionally includes tests and/or a [typer](https://typer.tiangolo.com/) CLI. |
+| `ci-only` | A Makefile and GitHub Actions workflow, for adding to an existing project.                                          |
 
-- ruff formatting and linting
-- Makefile for standard commands
-- Basic ci that runs the formatter with auto-push
-- an optional Python version test matrix
-- An optional PyPI publish job triggered on version tags.
+`fastapi` and `library` can also include [pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/) config with a single env file or multiple (dev, staging, prod).
 
-## How to use
+## Tooling
 
-- Install [copier](https://copier.readthedocs.io/en/stable/)
-- Run the following and answer the interactive prompts:
-  ```bash
-  copier copy https://github.com/KatieLG/repo-templates.git <target-path>
-  ```
-- Each generated repo has a README including setup steps
+- [uv](https://docs.astral.sh/uv/) for dependencies, Python 3.13 by default
+- [ruff](https://docs.astral.sh/ruff/) for formatting and linting
+- [ty](https://docs.astral.sh/ty/) for type checking
+- [pytest](https://pypi.org/project/pytest/) for tests
+- Makefile: `format`, `lint`, `test`, `check`, `bump`
+
+## CI (optional)
+
+GitHub Actions workflow with lint and test jobs on push and PR to `main`. Optional extras:
+
+- Auto-format and commit the result
+- Test matrix across Python 3.10–3.13
+- Publish to PyPI on `v*` tags
 
 ## Layout
 
-Each project type lives in its own subdirectory (selected via `_subdirectory` in `copier.yml`). Files identical across projects live in `shared/` and are included in the relevant jinja templates.
+Each project type is a subdirectory, selected with `_subdirectory` in `copier.yml`. Files shared across types live in `shared/` and are included from the jinja templates.
