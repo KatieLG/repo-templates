@@ -1,0 +1,29 @@
+bump := "patch"
+
+lint:
+	uv run ruff check
+	uv run ty check
+{%- if project_type == 'desktop' %}
+	uv run djlint $(templates) --lint
+{%- endif %}
+
+{% if project_type == 'desktop' -%}
+# djlint exits 1 when it has reformatted a file, which isn't a failure here
+{% endif -%}
+format:
+	uv run ruff format
+	uv run ruff check --fix
+{%- if project_type == 'desktop' %}
+	uv run djlint $(templates) --reformat --quiet || true
+{%- endif %}
+
+test:
+	uv run pytest
+
+check: format lint test
+
+bump:
+	uv version --bump $(bump)
+	git add pyproject.toml
+	git add uv.lock
+	git commit -m "bump: v$$(uv version --short)"

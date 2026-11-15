@@ -5,7 +5,7 @@ from pathlib import Path
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-CONFIG_DIR = Path("~/.config/{{project_name}}")
+CONFIG_DIR = Path(__file__).resolve().parents[{% if project_type == "fastapi" %}2{% else %}3{% endif %}]
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -26,7 +26,7 @@ class Settings(BaseSettings):
 {% if config_type == "multiple" %}
     env: Environment
 {% endif %}
-    api_key: SecretStr = Field(validation_alias="API_KEY")
+    api_key: SecretStr | None = Field(default=None, validation_alias="API_KEY")
 {% if config_type == "single" %}
     model_config = SettingsConfigDict(env_file=CONFIG_DIR / ".env")
 {% endif %}

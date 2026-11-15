@@ -1,6 +1,6 @@
 .PHONY: lint format test check bump run{% if include_tailwind %} build-css watch-css{% endif %}
 
-{% include 'shared/Makefile.common' %}{% if include_tailwind %}
+{% include 'shared/Makefile.common.jinja' %}{% if include_tailwind %}
 build-css:
 	tailwindcss -i static/input.css -o static/styles.css --minify
 
