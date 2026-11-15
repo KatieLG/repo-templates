@@ -16,7 +16,10 @@ The first prompt is `project_type` and decides which other prompts and options f
 | --------- | ------------------------------------------------------------------------------------------------------------------- |
 | `fastapi` | A FastAPI app. Optionally includes Jinja2 templates + static files and/or Tailwind CSS.                             |
 | `library` | A Python package with a `src/` layout. Optionally includes tests and/or a [typer](https://typer.tiangolo.com/) CLI. |
+| `desktop` | A local desktop app: a [pywebview](https://pywebview.flowrl.com/) window with DaisyUI, Tailwind and Alpine.js.      |
 | `ci-only` | A Makefile and GitHub Actions workflow, for adding to an existing project.                                          |
+
+`desktop` vendors its frontend libraries, so the app runs offline with no npm or build step. It asks for a sidebar or top bar for navigation, and can add charts (ECharts) and/or a SQLite database.
 
 `fastapi` and `library` can also include [pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/) config with a single env file or multiple (dev, staging, prod).
 
