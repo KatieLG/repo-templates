@@ -1,0 +1,27 @@
+import subprocess
+import sys
+
+import pytest
+
+from {{ project_name }}.api import Api
+
+
+def test_importing_api_does_not_load_the_gui() -> None:
+    """CI has no display, so tests must be able to import the API without pywebview."""
+    code = "import sys, {{ project_name }}.api; print('webview' in sys.modules)"
+    result = subprocess.run(
+        [sys.executable, "-c", code], capture_output=True, text=True, check=True
+    )
+    assert result.stdout.strip() == "False"
+
+
+def test_prefs_round_trip() -> None:
+    api = Api()
+    assert api.get_prefs() == {"theme": None}
+    api.set_pref("theme", "nord")
+    assert api.get_prefs() == {"theme": "nord"}
+
+
+def test_only_known_prefs_can_be_set() -> None:
+    with pytest.raises(ValueError, match="Unknown preference"):
+        Api().set_pref("anything", "x")

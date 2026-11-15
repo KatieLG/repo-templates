@@ -1,0 +1,31 @@
+from pathlib import Path
+
+from {{ project_name }} import prefs
+
+
+def test_empty_when_nothing_saved() -> None:
+    assert prefs.load() == {}
+    assert prefs.get("theme") is None
+    assert prefs.get("theme", "light") == "light"
+
+
+def test_save_and_load(data_dir: Path) -> None:
+    prefs.save("theme", "dark")
+    prefs.save("count", 3)
+    assert prefs.load() == {"theme": "dark", "count": 3}
+    assert (data_dir / "prefs.json").is_file()
+
+
+def test_unreadable_file_counts_as_empty(data_dir: Path) -> None:
+    data_dir.mkdir(parents=True, exist_ok=True)
+    (data_dir / "prefs.json").write_text("{not json")
+    assert prefs.load() == {}
+    prefs.save("theme", "dark")
+    assert prefs.load() == {"theme": "dark"}
+
+
+def test_reset() -> None:
+    prefs.save("theme", "dark")
+    prefs.reset()
+    assert prefs.load() == {}
+    prefs.reset()  # no file is fine too

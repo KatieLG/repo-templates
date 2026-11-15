@@ -1,0 +1,23 @@
+{% include 'shared/pyproject/project.toml.jinja' %}dependencies = [
+    "jinja2>=3.1.6",
+    "pydantic-settings>=2.11.0",
+    "pywebview>=6.2.1",
+]
+
+{% include 'shared/pyproject/build-system.toml' %}
+[dependency-groups]
+dev = [
+    "djlint>=1.50.1",
+    "pytest>=9.0.3",
+    "ruff>=0.15.13",
+    "ty>=0.0.37",
+]
+
+{% include 'shared/pyproject/ruff.toml' %}
+lint.allowed-confusables = ["–"]
+
+[tool.djlint]
+profile = "jinja"
+indent = 2
+max_line_length = 120
+max_attribute_length = 120

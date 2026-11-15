@@ -1,0 +1,22 @@
+from collections.abc import Iterator
+from pathlib import Path
+
+import pytest
+
+{% if include_database -%}
+from {{ project_name }} import db
+{% endif -%}
+from {{ project_name }}.config.settings import get_settings
+
+
+@pytest.fixture(autouse=True)
+def data_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Iterator[Path]:
+    """Gives each test an empty data directory, so real preferences are never touched."""
+    path = tmp_path / "data"
+    monkeypatch.setenv("{{ env_prefix }}_DATA_DIR", str(path))
+    get_settings.cache_clear()
+{%- if include_database %}
+    db.init()
+{%- endif %}
+    yield path
+    get_settings.cache_clear()

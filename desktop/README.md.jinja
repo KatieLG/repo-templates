@@ -1,0 +1,55 @@
+# {{ app_title }}
+
+{{ project_description }}
+
+A local macOS desktop app: Python with [pywebview](https://pywebview.flowrl.com/) for the window,
+and a web UI styled with [Tailwind](https://tailwindcss.com/) and
+[DaisyUI](https://daisyui.com/), using [Alpine.js](https://alpinejs.dev/) for UI state.
+
+## Setup
+
+- Install [uv](https://docs.astral.sh/uv/)
+- From the root directory run `uv sync`
+
+## Running
+
+```bash
+make run   # open the app
+make dev   # open it with the web inspector (right-click → Inspect)
+```
+
+## Settings
+
+Set these as environment variables, or in a `.env` file in the repo root:
+
+| Variable | Default | What it does |
+| --- | --- | --- |
+| `{{ env_prefix }}_DATA_DIR` | `data/` | Where the app keeps its files: `prefs.json`{% if include_database %} and `{{ project_name }}.db`{% endif %}. |
+| `{{ env_prefix }}_DEBUG` | off | `1` turns on the web inspector. `make dev` sets it. |
+
+## Development
+
+```bash
+make format  # ruff and djlint
+make lint    # ruff, ty and djlint
+make test    # pytest
+make check   # all three
+```
+
+## Stack
+
+Frontend libraries are vendored in `src/{{ project_name }}/web/vendor/`, so the app needs no build
+step and no network:
+
+| Library | Version |
+| --- | --- |
+| [DaisyUI](https://daisyui.com/) | 5.8.0 |
+| [@tailwindcss/browser](https://tailwindcss.com/docs/installation/play-cdn) | 4.3.5 |
+| [Alpine.js](https://alpinejs.dev/) | 3.17.5 |
+{%- if include_charts %}
+| [ECharts](https://echarts.apache.org/) | 6.1.0 |
+{%- endif %}
+{%- if include_database %}
+
+`db.py` stores data in SQLite, in the data directory.
+{%- endif %}

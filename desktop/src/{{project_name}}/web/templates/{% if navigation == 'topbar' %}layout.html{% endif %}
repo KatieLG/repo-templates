@@ -1,0 +1,34 @@
+{% from "macros.html" import icon %}
+{% set tabs = [('home', 'Home', 'home')] %}
+{% macro layout() %}
+  <div class="h-full flex flex-col" x-show="ready" x-cloak>
+    <header class="navbar shrink-0 gap-4 px-4 bg-base-100 border-b border-base-content/10">
+      <div class="flex items-center gap-2">
+        <div class="rounded-xl brand-gradient p-2 text-white">{{ icon("app") }}</div>
+        <span class="text-lg font-semibold tracking-tight">{{ app_title }}</span>
+      </div>
+      <ul class="menu menu-horizontal flex-1 gap-1 p-0">
+        {% for tab, label, tab_icon in tabs %}
+          <li>
+            <button type="button"
+                    class="rounded-xl"
+                    :class="tab === '{{ tab }}' && 'menu-active'"
+                    @click="tab = '{{ tab }}'">
+              {{ icon(tab_icon) }}
+              {{ label }}
+            </button>
+          </li>
+        {% endfor %}
+      </ul>
+      {# :selected rather than :value, as Alpine can set the value before the options exist #}
+      <select class="select select-sm w-40" x-model="theme" aria-label="Theme">
+        <template x-for="t in themes" :key="t">
+          <option :value="t" x-text="t" :selected="t === theme"></option>
+        </template>
+      </select>
+    </header>
+    <main class="flex-1 overflow-y-auto">
+      {{ caller() }}
+    </main>
+  </div>
+{% endmacro %}

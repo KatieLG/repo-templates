@@ -1,0 +1,18 @@
+from pathlib import Path
+
+from {{ project_name }}.config.settings import APP_TITLE, DEFAULT_THEME
+from {{ project_name }}.render import render_index, vendor_scripts
+
+
+def test_page_renders(tmp_path: Path) -> None:
+    page = render_index(APP_TITLE, DEFAULT_THEME, tmp_path / "index.html").read_text()
+    assert f"<title>{APP_TITLE}</title>" in page
+    assert f'data-theme="{DEFAULT_THEME}"' in page
+    assert "{{ '{{' }}" not in page
+    assert "{{ '{%' }}" not in page
+
+
+def test_vendor_libraries_are_loaded(tmp_path: Path) -> None:
+    page = render_index(APP_TITLE, DEFAULT_THEME, tmp_path / "index.html").read_text()
+    for script in vendor_scripts():
+        assert f'src="vendor/{script}"' in page

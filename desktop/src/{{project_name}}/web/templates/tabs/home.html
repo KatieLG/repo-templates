@@ -1,0 +1,16 @@
+{% from "macros.html" import modal %}
+<section class="flex flex-col gap-6" x-show="tab === 'home'">
+  <div>
+    <h1 class="text-3xl font-bold tracking-tight">Home</h1>
+    <p class="mt-1 opacity-70">A placeholder tab. Replace it with your own.</p>
+  </div>
+  <div>
+    <button type="button" class="btn btn-soft" @click="openModal('example')">Open a modal</button>
+  </div>
+  {% call modal("example", "Example modal") %}
+    <p class="opacity-70">A modal can hold any content.</p>
+    <div class="modal-action">
+      <button type="button" class="btn" @click="closeModal('example')">Close</button>
+    </div>
+  {% endcall %}
+</section>

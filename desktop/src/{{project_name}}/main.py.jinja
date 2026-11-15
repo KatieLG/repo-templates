@@ -1,0 +1,31 @@
+import webview
+
+{% if include_database -%}
+from {{ project_name }} import db
+{% endif -%}
+from {{ project_name }}.api import Api
+from {{ project_name }}.config.settings import APP_TITLE, DEFAULT_THEME, get_settings
+from {{ project_name }}.render import render_index
+
+
+def main() -> None:
+{%- if include_database %}
+    db.init()
+{%- endif %}
+    api = Api()
+    window = webview.create_window(
+        APP_TITLE,
+        str(render_index(APP_TITLE, DEFAULT_THEME)),
+        js_api=api,
+        width=1200,
+        height=820,
+        min_size=(900, 600),
+    )
+    if window is None:
+        raise RuntimeError("Couldn't create the app window")
+    api._attach(window)
+    webview.start(debug=get_settings().debug)
+
+
+if __name__ == "__main__":
+    main()

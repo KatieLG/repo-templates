@@ -6,17 +6,18 @@ project_type:
   choices:
     FastAPI app: fastapi
     Python library: library
+    Python desktop app (pywebview + DaisyUI): desktop
     CI-only (Makefile + GitHub Actions for an existing project): ci-only
 
 project_name:
   type: str
   help: What is the name of the project (used as the package name)
-  when: "{{ project_type in ['fastapi', 'library'] }}"
+  when: "{{ project_type in ['fastapi', 'library', 'desktop'] }}"
 
 project_description:
   type: str
   help: Brief description of what the project does
-  when: "{{ project_type in ['fastapi', 'library'] }}"
+  when: "{{ project_type in ['fastapi', 'library', 'desktop'] }}"
 
 # --- fastapi ---
 include_html_templates:
@@ -49,6 +50,41 @@ alias_name:
   help: What is the alias or entrypoint for the cli
   when: "{{ project_type == 'library' and include_cli == true }}"
 
+# --- desktop ---
+app_title:
+  type: str
+  help: Window title and name shown in the app
+  default: "{{ project_name | replace('_', ' ') | replace('-', ' ') | title }}"
+  when: "{{ project_type == 'desktop' }}"
+
+env_prefix:
+  type: str
+  help: Prefix for the app's environment variables, e.g. <PREFIX>_DEBUG, <PREFIX>_DATA_DIR
+  default: "{{ project_name | upper | replace('-', '_') }}"
+  when: "{{ project_type == 'desktop' }}"
+  validator: "{% if not (env_prefix | regex_search('^[A-Z][A-Z0-9_]*$')) %}Use upper-case letters, digits and underscores{% endif %}"
+
+navigation:
+  type: str
+  help: Where the tabs go
+  choices:
+    Sidebar: sidebar
+    Top bar: topbar
+  default: sidebar
+  when: "{{ project_type == 'desktop' }}"
+
+include_charts:
+  type: bool
+  help: "Add-on: charts (vendors ECharts)"
+  default: false
+  when: "{{ project_type == 'desktop' }}"
+
+include_database:
+  type: bool
+  help: "Add-on: SQLite database"
+  default: false
+  when: "{{ project_type == 'desktop' }}"
+
 # --- shared: fastapi + library ---
 include_config_setup:
   type: bool
@@ -80,10 +116,11 @@ include_version_matrix:
   type: bool
   help: Run tests across multiple Python versions (3.10-3.13)
   default: false
-  when: "{{ include_ci == true }}"
+  # The desktop app needs Python 3.13 and isn't published to PyPI
+  when: "{{ include_ci == true and project_type != 'desktop' }}"
 
 include_publish:
   type: bool
   help: Include a PyPI publish job triggered on version tags (v*)
   default: false
-  when: "{{ include_ci == true }}"
+  when: "{{ include_ci == true and project_type != 'desktop' }}"

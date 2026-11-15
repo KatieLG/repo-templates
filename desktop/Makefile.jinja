@@ -1,0 +1,12 @@
+.PHONY: run dev lint format test check bump
+
+templates := src/{{project_name}}/web/templates
+
+run:
+	uv run python -m {{project_name}}
+
+# Opens with the web inspector enabled (right-click → Inspect)
+dev:
+	{{env_prefix}}_DEBUG=1 uv run python -m {{project_name}}
+
+{% include 'shared/Makefile.common.jinja' %}

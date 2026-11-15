@@ -1,0 +1,33 @@
+import sqlite3
+from collections.abc import Generator
+from contextlib import contextmanager
+from pathlib import Path
+
+from {{ project_name }}.config.settings import get_settings
+
+SCHEMA_VERSION = 1
+
+SCHEMA = """
+"""
+
+
+@contextmanager
+def connect(path: Path | None = None) -> Generator[sqlite3.Connection]:
+    """Commits on success, rolls back on error, and always closes."""
+    path = path or get_settings().db_path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(path)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON")
+    try:
+        with conn:
+            yield conn
+    finally:
+        conn.close()
+
+
+def init(path: Path | None = None) -> None:
+    """Creates the tables and records the schema version."""
+    with connect(path) as conn:
+        conn.executescript(SCHEMA)
+        conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")

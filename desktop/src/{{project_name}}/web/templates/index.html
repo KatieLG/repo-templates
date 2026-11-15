@@ -1,0 +1,32 @@
+{% from "layout.html" import layout with context %}
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ default_theme }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ app_title }}</title>
+    <link href="vendor/daisyui.css" rel="stylesheet" />
+    <link href="vendor/themes.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <script src="vendor/tailwind-browser.js"></script>
+    {% for script in vendor_scripts %}
+      <script src="vendor/{{ script }}"></script>
+    {% endfor %}
+    {% for script in ["helpers", "home", "app"] %}
+      <script src="js/{{ script }}.js"></script>
+    {% endfor %}
+    <script defer src="vendor/alpine.min.js"></script>
+  </head>
+  <body class="h-screen overflow-hidden bg-base-200" x-data="app()">
+    {% call layout() %}
+      <div class="max-w-6xl mx-auto p-8">{% include "tabs/home.html" %}</div>
+    {% endcall %}
+    <div class="toast toast-end z-[1000]">
+      <template x-for="t in toasts" :key="t.id">
+        <div role="alert" class="alert" :class="t.type === 'error' ? 'alert-error' : 'alert-success'">
+          <span x-text="t.message"></span>
+        </div>
+      </template>
+    </div>
+  </body>
+</html>
